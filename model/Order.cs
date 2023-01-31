@@ -1,20 +1,20 @@
-using Newtonsoft.Json;
+using System.Text.Json;
 
 class Order
 {
     public int OrderNr { get; }
-    bool isStudentOrder { get; set; }
-    List<MovieTicket> tickets = new List<MovieTicket>();
+    public bool IsStudentOrder { get; set; }
+    public List<MovieTicket> Tickets { get; set; } = new List<MovieTicket>();
 
     public Order(int orderNr, bool isStudentOrder)
     {
-        OrderNr = orderNr;
-        this.isStudentOrder = isStudentOrder;
+        this.OrderNr = orderNr;
+        this.IsStudentOrder = isStudentOrder;
     }
 
     public void addSeatReservation(MovieTicket ticket)
     {
-        this.tickets.Add(ticket);
+        this.Tickets.Add(ticket);
     }
 
     public double calculatePrice()
@@ -37,7 +37,8 @@ class Order
             case TicketExportFormat.JSON:
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "Order.json")))
                 {
-                    outputFile.WriteLine(JsonConvert.SerializeObject(this));
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    outputFile.WriteLine(JsonSerializer.Serialize(this, options));
                 }
                 break;
             default:
@@ -48,10 +49,10 @@ class Order
     public override string ToString()
     {
         string order = "Order number: " + this.OrderNr + Environment.NewLine;
-        order += "Student order: " + this.isStudentOrder + Environment.NewLine;
+        order += "Student order: " + this.IsStudentOrder + Environment.NewLine;
         order += "Tickets: " + Environment.NewLine;
 
-        foreach (MovieTicket ticket in this.tickets)
+        foreach (MovieTicket ticket in this.Tickets)
         {
             order += ticket.ToString() + Environment.NewLine;
         }
