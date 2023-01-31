@@ -12,8 +12,10 @@ class Movie
         // Add screening to movie
     }
 
-    public string toString()
+    public override string ToString()
     {
-        Console.WriteLine("Movie: " + this.Title);
+        string movie = "Movie: " + this.Title;
+
+        return movie;
     }
 }
