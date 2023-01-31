@@ -19,6 +19,34 @@ class Order
 
     public double calculatePrice()
     {
+        double totalAmount = 0;
+        int amountOfTickets = Tickets.Count();
+        int divider = 0;
+        bool isMaDiWoDo = false;
+
+        foreach(MovieTicket Ticket in Tickets){
+            if(Ticket.MovieScreening.DateAndTime.DayOfWeek == DayOfWeek.Monday || Ticket.MovieScreening.DateAndTime.DayOfWeek == DayOfWeek.Tuesday || Ticket.MovieScreening.DateAndTime.DayOfWeek == DayOfWeek.Wednesday || Ticket.MovieScreening.DateAndTime.DayOfWeek == DayOfWeek.Thursday){
+                isMaDiWoDo = true;
+            }
+                totalAmount += Ticket.getPrice();
+                if(Ticket.IsPremiumReservation){
+                    if(IsStudentOrder){
+                        totalAmount += 2;
+                    }else{
+                        totalAmount += 3;
+                    }
+                }
+            }
+        if(IsStudentOrder || isMaDiWoDo){
+            if(amountOfTickets % 2 == 0){
+                divider = amountOfTickets / 2;
+            }else{
+                divider = amountOfTickets -1 / 2;
+            }
+        }
+        if(!IsStudentOrder && !isMaDiWoDo && amountOfTickets >= 6){
+            totalAmount = totalAmount * 0.9;
+        }
         return 10.0;
     }
 

@@ -11,6 +11,10 @@ class MovieScreening
         this.PricePerSeat = pricePerSeat;
     }
 
+    public double GetPricePerSeat(){
+        return 10.0;
+    }
+
     public override string ToString()
     {
         string movieScreening = "Movie: " + this.Movie.Title + Environment.NewLine;
